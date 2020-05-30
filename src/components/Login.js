@@ -1,8 +1,9 @@
 import React from "react";
 import reactDOM from "react-dom";
 
-import FadeTransition from "./transitions/fadeTransition";
+ import FadeTransition from "./transitions/fadeTransition";
 import "./Login.css"
+
 
 class Login extends React.Component {
 
@@ -356,9 +357,9 @@ class RegisterBox extends React.Component {
 
   }
 
-}
+} 
 
 reactDOM.render(
-  <Login/>, document.getElementById("root"));
+  <Login/>, document.getElementById("root")); 
 
 export default Login;
