@@ -121,10 +121,6 @@ function Register() {
                     className="login-btn"
                     onClick = { () => registrationHandler(name, email, username)}>Create Account
                     </button>
-
-                <div>
-                    <p className = "message">Already have an account? <a href="#">Login.</a></p>
-                </div>
     
                     </div>
                 </div>

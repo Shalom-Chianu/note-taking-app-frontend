@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.css';
 import axios from 'axios';
 
@@ -20,16 +20,19 @@ function Login() {
   }
 
   const getAllRegularUsers = () => {
-    let promise = axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
-        setRegularUsers([...res.data]);
-     }).catch(e => {
-         console.log(e);
-         return Promise.reject;
-     })
-     return promise;
+            axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
+            setRegularUsers([...res.data]);
+        }
+        ).catch(e => {
+            console.log(e);
+      });
   }
 
-  const accountValidation = (email) => {
+  useEffect (() => {
+    getAllRegularUsers();
+  })
+
+  const handleSubmit = (email) => {
       let included = false;
       let email1 = "";
       let username = "";
@@ -47,20 +50,12 @@ function Login() {
       }
 
       if (included) {
-          getAccountByEmail(email); // how do we go from here to the next page
+     //     getAccountByEmail(email); // how do we go from here to the next page
       } else {
         console.log("email1: " + email1);
         console.log("email: " + email);
      //   throw new Error("Email or password may be incorrect");
     }
-  }
-
-  const handleSubmit = (email) => {
-        getAllRegularUsers().then( e => {
-            accountValidation(email)
-        }).catch(e => {
-            console.log(e);
-        })
   }
   
   return (
@@ -105,9 +100,6 @@ function Login() {
                     onClick = { () => handleSubmit(email)}>Login
                 </button> 
 
-                <div>
-                    <p className = "message">Don't have an account? <a href="#">Register.</a></p> {/*How to use Link and then style it*/}
-                </div>
 
                 </div>
             </div>
