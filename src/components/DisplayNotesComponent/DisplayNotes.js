@@ -150,10 +150,16 @@ const userIndex = regularUsers.findIndex(element => element.accountDTO.emai
 
     return(
         <div className="container"> 
-            <Collapse accordion>
+            <Collapse accordion className="panels">
+                {/* Will replace noteData with regUserObj.notes.map(note => ) + corresponding fields */}
                 {noteData.map(note => (
-                <Panel header={note.title} className="otherpanel">
-                    <p className="panels">{note.description}</p>
+                    <Panel header={<ContentEditable
+                        html={note.title}
+                    />} className="panels">
+                    <p className="panels">{<ContentEditable
+                                        html={note.description}
+                                        onChange={() => handleChange()}
+                                    />}</p>
                 </Panel>
                 ))}
             </Collapse>
