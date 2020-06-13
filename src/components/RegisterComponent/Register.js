@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './Register.css';
 import axios from 'axios';
+import '../LoginComponent/Login.css';
+import Notes from '../NewNotesComponent/NewNotes';
+import {Link} from 'react-router-dom';
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -40,9 +42,19 @@ function Register() {
     }
 
    const registrationHandler = (email, username, name) => {
-        createAccount (email, username).then (
+        createAccount (email, username)
+        .then (
             e => { 
-                createRegularUser(name, email, username).then( e => { getAllRegularUsers() }); 
+                createRegularUser(name, email, username)
+        .then( 
+            e => { 
+                getAllRegularUsers()
+       /* .then (
+            e => {
+                <Notes regularUser={email} />
+                // redirect to Notes page
+            }
+        ) */ }); 
             }
         ).catch(e =>  { 
             console.log(e);
@@ -58,7 +70,9 @@ function Register() {
     const getAllRegularUsers = () => {
         axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
             setRegularUsers([...res.data]);
-         })
+         }).catch(e => {
+            console.log(e);
+        });
     }
     
 
@@ -76,52 +90,58 @@ function Register() {
             <div className="box-container">
                 <div className="inner-container">
                     <div className="header">
-                    Register
+                        Register
                     </div>
                     <div className="box">
 
-                    <div className="input-group">
-                        <label htmlFor="name">Name</label>
-                        <input
-                        type="text"
-                        name="name"
-                        className="login-input"
-                        placeholder="Full Name" onChange = { (e) => setName(e.target.value) } />
-                    </div>
+                        <div className="input-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                className="login-input"
+                                placeholder="Full Name" onChange={(e) => setName(e.target.value)} />
+                        </div>
 
-                    <div className="input-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                        type="text"
-                        name="username"
-                        className="login-input"
-                        placeholder="Full Name" onChange = { (e) => setUsername(e.target.value) } />
-                    </div>
-    
-                    <div className="input-group">
-                        <label htmlFor="username">Email</label>
-                        <input
-                        type="text"
-                        name="email"
-                        className="login-input"
-                        placeholder="Email" onChange = { (e) => setEmail(e.target.value) } />
-                    </div>
-    
-                    <div className="input-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                        type="password"
-                        name="password"
-                        className="login-input"
-                        placeholder="Password" onChange = { (e) => setPassword(e.target.value)} />
-                    </div>
-    
-                   <button
-                    type="button"
-                    className="login-btn"
-                    onClick = { () => registrationHandler(name, email, username)}>Create Account
+                        <div className="input-group">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                className="login-input"
+                                placeholder="Full Name" onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+
+                        <div className="input-group">
+                            <label htmlFor="username">Email</label>
+                            <input
+                                type="text"
+                                name="email"
+                                className="login-input"
+                                placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+
+                        <div className="input-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="login-input"
+                                placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+
+                        <button
+                            type="button"
+                            className="login-btn"
+                            onClick={() => registrationHandler(name, email, username)}>Create Account
                     </button>
-    
+
+                        <div>
+                            <p className="message">Already have an account? <Link to="/register">
+                                Login
+                    </Link></p>
+                        </div>
+
                     </div>
                 </div>
             </div>

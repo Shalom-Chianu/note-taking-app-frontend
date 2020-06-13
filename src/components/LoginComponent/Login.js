@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
 import axios from 'axios';
-
+import Notes from '../NewNotesComponent/NewNotes';
+import { Link } from 'react-router-dom';
+//import { Route , withRouter} from 'react-router-dom';
 
 function Login() {
   
@@ -9,6 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); // doubles as username for now
   const [regularUsers, setRegularUsers] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   const getAccountByEmail = (email) => {
     axios.post("http://localhost:8080/getAccountByEmail/" + "?" + "email=" +  email).then(res => {
@@ -50,60 +53,64 @@ function Login() {
       }
 
       if (included) {
-     //     getAccountByEmail(email); // how do we go from here to the next page
+       // <Notes regularUser={email}/>
       } else {
-        console.log("email1: " + email1);
-        console.log("email: " + email);
-     //   throw new Error("Email or password may be incorrect");
+        throw new Error("Email or password may be incorrect");
     }
   }
   
   return (
     <div className="root-container">
 
-        <div className="title">
-            <h1>Note-Taking App</h1>
-        </div>
+      <div className="title">
+        <h1>Note-Taking App</h1>
+      </div>
 
-        <div className="subtitle">
-            <p>(Subtitle)</p>
-        </div>
-        
-        <div className="box-container">
-            <div className="inner-container">
-                <div className="header">
-                Login
+      <div className="subtitle">
+        <p>(Subtitle)</p>
+      </div>
+
+      <div className="box-container">
+        <div className="inner-container">
+          <div className="header">
+            Login
                 </div>
-                <div className="box">
+          <div className="box">
 
-                <div className="input-group">
-                    <label htmlFor="username">Email</label>
-                    <input
-                    type="text"
-                    name="email"
-                    className="login-input"
-                    placeholder="Email" onChange = { (e) => setEmail(e.target.value) } />
-                </div>
-
-                <div className="input-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                    type="password"
-                    name="password"
-                    className="login-input"
-                    placeholder="Password" onChange = { (e) => setPassword(e.target.value)} />
-                </div>
-
-                <button
-                    type="button"
-                    className="login-btn"
-                    onClick = { () => handleSubmit(email)}>Login
-                </button> 
-
-
-                </div>
+            <div className="input-group">
+              <label htmlFor="username">Email</label>
+              <input
+                type="text"
+                name="email"
+                className="login-input"
+                placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
             </div>
+
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="login-input"
+                placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            </div>
+
+            <button
+              type="button"
+              className="login-btn"
+              onClick={() => handleSubmit(email)}>Login
+                </button>
+
+            <div>
+              <p className="message">Don't have an Account? <Link to="/register">
+                Register
+                  </Link></p>
+            </div>
+
+
+          </div>
         </div>
+      </div>
     </div>
 
   );

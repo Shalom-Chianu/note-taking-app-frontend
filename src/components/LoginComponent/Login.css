@@ -15,8 +15,6 @@ body,
     align-items: center;
     flex-direction: column;
     background-color: #043927;
-
-    /* 5E1914 */
 }
 
 .box-controller {
@@ -174,38 +172,4 @@ body,
 .login-btn:focus {
     background-color: #CACC00;
     color: white;
-}
-
-.danger-error {
-    color: #e74c3c;
-    font-size: 16px;
-}
-
-/*Password */
-.password-state {
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-}
-
-.pwd {
-    height: 6px;
-    flex: 1;
-    visibility: hidden;
-}
-
-.pwd-weak {
-    background-color: #e74c3c;
-}
-
-.pwd-medium {
-    background-color: #3498db;
-}
-
-.pwd-strong {
-    background-color: #000000;
-}
-
-.show {
-    visibility: visible;
 }
