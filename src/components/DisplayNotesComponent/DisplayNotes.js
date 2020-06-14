@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Collapse } from 'antd';
-import '../NewNotesComponent/NewNotes.css'
+import './DisplayNotes.css';
 import axios from 'axios';
 import ContentEditable from "react-contenteditable";
 
@@ -14,7 +14,7 @@ const text = `
   it can be found as a welcome guest in many households across the world. A dog is a type of domesticated animal. Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world. A dog is a type of domesticated animal. Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`;
+  `;
 
 function DisplayNotes(props) {
 
@@ -149,13 +149,13 @@ const userIndex = regularUsers.findIndex(element => element.accountDTO.emai
       ];
 
     return(
-        <div className="container"> 
+        <div className="containerD"> 
             <Collapse accordion className="panels">
                 {/* Will replace noteData with regUserObj.notes.map(note => ) + corresponding fields */}
                 {noteData.map(note => (
                     <Panel header={<ContentEditable
                         html={note.title}
-                    />} className="panels">
+                    />} classname="location">
                     <p className="panels">{<ContentEditable
                                         html={note.description}
                                         onChange={() => handleChange()}

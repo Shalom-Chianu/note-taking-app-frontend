@@ -39,7 +39,8 @@
     font-family: Oxygen, sans-serif;
     background-color: #ffffff;
     margin-top: 20px;
-    border: 2px solid #f0a500;
+    border: none;
+    /*border: 2px solid #f0a500; */
     transition: background-color 0.3s ease-out;
     cursor: pointer;
     color: #000000;
@@ -59,7 +60,8 @@
     font-family: Oxygen, sans-serif;
     background-color: #ffffff;
     margin-top: 20px;
-    border: 2px solid #f0a500;
+    border: none;
+    /*border: 2px solid #f0a500; */
     transition: background-color 0.3s ease-out;
     cursor: pointer;
     color: #000000;
@@ -68,5 +70,9 @@
 .registerb:hover,
 .registerb:focus {
     background-color: #f0a500;
+    color: white;
+}
+
+.pagetitle {
     color: white;
 }

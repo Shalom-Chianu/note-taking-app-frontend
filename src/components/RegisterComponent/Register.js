@@ -137,7 +137,7 @@ function Register() {
                     </button>
 
                         <div>
-                            <p className="message">Already have an account? <Link to="/register">
+                            <p className="message">Already have an account? <Link to="/login">
                                 Login
                     </Link></p>
                         </div>

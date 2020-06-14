@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: '#ffffff',
   },
 }));
 
@@ -39,12 +40,12 @@ function Navbar() {
                   <Typography variant="h6" className={classes.title}>
                       <b>Note Taking App</b>
                   </Typography>
-                  <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                  {/*<Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
                       <Button color="inherit">Login</Button>
                   </Link>
                   <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}>
                       <Button color="inherit">Register</Button>
-                  </Link>
+                  </Link>*/}
                   <Link to='/newnotes' style={{ color: 'inherit', textDecoration: 'inherit' }}>
                       <Button color="inherit">Add Note</Button>
                   </Link>

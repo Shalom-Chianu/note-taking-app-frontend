@@ -8,7 +8,7 @@ function Homepage() {
     return (
         <div>
             <div className="Homepage-header">
-                <h1>Note-Taking App</h1>
+                <h1 className="pagetitle">Note-Taking App</h1>
                 <p>~ Logo thing ~</p>
                 <div className="buttoncontainer">
                     <Link to="/login">

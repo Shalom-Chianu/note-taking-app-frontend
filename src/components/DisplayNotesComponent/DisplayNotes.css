@@ -1,0 +1,14 @@
+.panels {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.containerD {
+    width: 100%;
+    height: 100%;
+   /* display: flex;
+ /*   justify-content: center;
+    align-items: left; */
+    flex-direction: column;
+    background-color: #f0f1f6;
+} 

@@ -26,6 +26,20 @@
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
+.notebody {
+    width: 600px; /* usingpercentages for the size does not work */
+    height: 300px; 
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
 
 textarea {
     width: 600px; /* usingpercentages for the size does not work */
@@ -65,19 +79,14 @@ textarea {
     font-family: Oxygen, sans-serif;
     background-color: #ffffff;
     margin-top: 20px;
-    border: 2px solid #000000;
+    border: none;
     transition: background-color 0.3s ease-out;
     cursor: pointer;
-    color: #000000;
+    color: #777676;
 }
 
 .buttonb:hover,
 .buttonb:focus {
     background-color: #000000;
     color: white;
-}
-
-.panels {
-    max-width: 100%;
-    word-wrap: break-word;
 }
