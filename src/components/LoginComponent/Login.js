@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Login.css';
 import axios from 'axios';
 import Notes from '../NewNotesComponent/NewNotes';
-import { Link } from 'react-router-dom';
+import { Link,  Redirect } from 'react-router-dom';
+import { useAuth } from "../../context/auth";
 //import { Route , withRouter} from 'react-router-dom';
 
 function Login() {
@@ -11,6 +12,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); // doubles as username for now
   const [regularUsers, setRegularUsers] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const { setAuthTokens } = useAuth();
 
   const getAccountByEmail = (email) => {
     axios.post("http://localhost:8080/getAccountByEmail/" + "?" + "email=" +  email).then(res => {
@@ -53,11 +58,20 @@ function Login() {
 
       if (included) {
        // <Notes regularUser={email}/>
+       setAuthTokens(email);
+       setLoggedIn(true);
+
       } else {
+        setIsError(true);
         throw new Error("Email or password may be incorrect");
     }
+
+    
   }
-  
+
+  if(isLoggedIn){
+    return <Redirect to="/notetakingapp" />
+  }
   return (
     <div className="root-container">
 
