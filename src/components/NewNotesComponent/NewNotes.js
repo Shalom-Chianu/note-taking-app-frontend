@@ -1,79 +1,83 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './NewNotes.css'
 import axios from 'axios';
-import { Link , Redirect} from 'react-router-dom';
-
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import ContentEditable from "react-contenteditable";
-import Button from '@material-ui/core/Button';
-
+import { Link, Redirect } from 'react-router-dom';
 
 // How do we keep track of who is logged in?
-function Notes(props) {
+function NewNotes() {
     const [regularUsers, setRegularUsers] = useState([]);
-    const [notes, setNotes] = useState([]);
-    const [noteTitle, setNoteTitle]  = useState("");
+    const [noteTitle, setNoteTitle] = useState("");
     const [noteDescription, setNoteDescription] = useState("");
+    const existingTokens = JSON.parse(localStorage.getItem("tokens"));
 
-    useEffect (() => {
+    useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const getAllRegularUsers = () => {
+            try {
+                axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
+                    setRegularUsers([...res.data]);
+                });
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
+            }
+        };
+
         getAllRegularUsers();
-    })
 
-    // Assuming useEffect can getAllNotes
-    const regularUserEmail = props.regularUser; // if the regular user email can be from the Register component to the Notes component
-    
+        return () => {
+            source.cancel();
+        };
+
+    }, []);
+
+    console.log(regularUsers);
+    const regularUserEmail = existingTokens; // if the regular user email can be from the Register component to the Notes component
+    console.log(regularUserEmail);
     const regUserObj = regularUsers.find(element => element.accountDTO.email == regularUserEmail);
-    const regUserId = 7;//regUserObj.id;
+    console.log(regUserObj);
+    const regUserId = GetPropertyValue(regUserObj, "id");
+    console.log(regUserId);
 
-    //getAllNotesForRegularUser(regUserId); // populates notes arrays 
+    function GetPropertyValue(obj1, dataToRetrieve) {
+        return dataToRetrieve
+          .split('.') // split string based on `.`
+          .reduce(function(o, k) {
+            return o && o[k]; // get inner property if `o` is defined else get `o` and return
+          }, obj1) // set initial value as object
+      }
 
     const createNote = (title, description, regularUserId) => {
-        axios.post("http://localhost:8080/createNote" + "?" + "title=" +  title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
-                // res -> holds the notes
-                // add new note to array
-             //   regUserObj.notes.push(res.data); 
-            }
+        axios.post("http://localhost:8080/createNote/" + "?" + "title=" + title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
+            console.log(res.data);
+        }
         ).catch(e => {
-            console.log(e);
-        });
-    }
-
-    const getAllNotesForRegularUser = (regUserId) => {
-        axios.get("localhost:8080/getAllNotesForRegularUser" + "?" + "regularUserId=" + regUserId).then(res => {
-            setNotes(...res);
-        })
-    }
-
-    const getAllRegularUsers = () => {
-        axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
-            setRegularUsers([...res.data]);
-         }).catch(e => {
             console.log(e);
         });
     } 
 
     const addNoteHandler = (title, description, regUserId) => {
-        createNote (title, description, regUserId);
-        let redirect = false;
-        
-        if (title != "" && description != "") {
-            redirect = true;
-        }
+        createNote(title, description, regUserId);
+          let redirect = false;
+          
+          if (title != "" && description != "") {
+              redirect = true;
+          }
 
-        if (redirect) {
-            return (<Redirect to="/somewhere/else" />);
-        }
+          console.log(redirect);
+  
+          if (redirect) {
+              return <Redirect to="/displaynotes" />;
+          } 
     } 
 
- // how to make an icon the submit button?
-    return ( //use noteTitle and noteDescription when ADDING a note
+    // how to make an icon the submit button?
+    return ( 
         <div className="container">
             <form className="form">
                 <input className="notetitle" type="text" name="title" placeholder="Title" onChange={(e) => setNoteTitle(e.target.value)} />
@@ -91,4 +95,4 @@ function Notes(props) {
 
 }
 
-export default Notes;
+export default NewNotes;

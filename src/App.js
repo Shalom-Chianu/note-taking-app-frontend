@@ -11,6 +11,8 @@ import PrivateRoute from './PrivateRoute';
 import PseudoAccessRoute from './PseudoAccessRoute'
 import { AuthContext } from "./context/auth";
 import NoteTakingApp from './components/HomepageComponent/NoteTakingApp'
+import EditNotes from './components/DisplayNotesComponent/EditNotes';
+import Layout from './components/LayoutComponent/Layout';
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
           <PseudoAccessRoute path="/" exact component={Homepage} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/editnotes" component={EditNotes} />
+          <Route path="/layout" component={Layout} />
           <PrivateRoute path="/newnotes" component={NewNotes}>
           </PrivateRoute>
           <PrivateRoute path="/displaynotes" component={DisplayNotes}>

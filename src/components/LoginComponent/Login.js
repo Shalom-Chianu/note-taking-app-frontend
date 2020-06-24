@@ -26,18 +26,31 @@ function Login() {
     })
   }
 
-  const getAllRegularUsers = () => {
-            axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
-            setRegularUsers([...res.data]);
-        }
-        ).catch(e => {
-            console.log(e);
-      });
-  }
-
   useEffect (() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
+    const getAllRegularUsers = () => {
+      try {
+        axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
+          setRegularUsers([...res.data]);
+        });
+      } catch(error) {
+        if (axios.isCancel(error)) {
+          console.log("cancelled");
+        } else {
+          throw error;
+        }
+      }
+    };
+
     getAllRegularUsers();
-  })
+
+    return() => {
+      source.cancel();
+    };
+   
+  }, []);
 
   const handleSubmit = (email) => {
       let included = false;
@@ -66,7 +79,6 @@ function Login() {
         throw new Error("Email or password may be incorrect");
     }
 
-    
   }
 
   if(isLoggedIn){

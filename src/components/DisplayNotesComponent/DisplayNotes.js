@@ -1,171 +1,175 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import 'antd/dist/antd.css';
-import { Collapse } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
 import './DisplayNotes.css';
-import axios from 'axios';
-import ContentEditable from "react-contenteditable";
+import axios from 'axios';
+import Editable from "./Editable";
 
-const { Panel } = Collapse;
+function DisplayNotes() {
+    const inputRef = useRef();
+    const textareaRef = useRef();
+    const [regularUser, setRegularUser] = useState({});
+    const [regularUserNotes, setRegularUserNotes] = useState([]);
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world. A dog is a type of domesticated animal. Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world. A dog is a type of domesticated animal. Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  `;
 
-function DisplayNotes(props) {
+    useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
 
-    const [regularUsers, setRegularUsers] = useState([]);
-    const [noteTitle, setNoteTitle]  = useState("");
-    const [noteDescription, setNoteDescription] = useState("");
+        const existingTokens = JSON.parse(localStorage.getItem("tokens"));
 
-    // if i do useeffect will the regularUsers list load before i execute these commands?
-    // shall i put this inside the useeffect?
-    const regularUserEmail = props.regularUser; // if the regular user email can be from the Register component to the Notes component
-    //const regUserObj = regularUsers.find(element => element.accountDTO.email == regularUserEmail);
-    //const regUserId = regUserObj.id;
-    
-const userIndex = regularUsers.findIndex(element => element.accountDTO.email == regularUserEmail);
-    const regUserObj = regularUsers[userIndex]; //hmmm could this index change, probably, so what now? 
+        const getRegularUserByEmail = (email) => {
+            try {
+                axios.get("http://localhost:8080/getRegularUserByEmail/" + "?" + "email=" + email).then(res => {
+                    setRegularUser(res.data);
+                });
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
+            }
+        };
 
-    const createNote = (title, description, regularUserId) => {
-        axios.post("http://localhost:8080/createNote" + "?" + "title=" +  title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
-                // res -> holds the notes
-                // add new note to array
-                regUserObj.notes.push(res.data); 
-            }
-        ).catch(e => {
-            console.log(e);
-        });
-    }
+        getRegularUserByEmail(existingTokens);
 
-    const getAllRegularUsers = () => {
-        axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
-            setRegularUsers([...res.data]);
-         }).catch(e => {
-            console.log(e);
-        });
-    }
+        return () => {
+            source.cancel();
+        };
 
-    // if the user wants to delete all their notes
-    const deleteNotesByRegularUser = (regularUserId) => {
-        axios.delete("http://localhost:8080/deleteNotesByRegularUser" + "?" + "regularUserId=" + regularUserId).then(() => {
-                regUserObj.notes.length = 0;
-                // or should i use splice or pop?
-                /* while(regUserObj.notes.length > 0) {
-                    regUser.Obj.notes.pop();
-                } */
-            }
-        ).catch(e => {
-            console.log(e);
-        });
-    }
+    }, []);
 
-    // not using result so what do i do in this case? for now used a parameterless function.
-    const deleteNoteById = (noteId) => {
-        axios.delete("http://localhost:8080/deleteNoteById" + "?" + "noteId=" + noteId).then( () => {
-            let noteIndex = regUserObj.notes.findIndex(element => element.noteId == noteId);
-            regUserObj.notes.splice(noteIndex, 1);
-        }).catch(e => {
-            console.log(e);
-        });
-    }
+    useEffect(() => {
+        function getPropertyValue(obj1, dataToRetrieve) {
+            return dataToRetrieve
+                .split('.') // split string based on `.`
+                .reduce(function (o, k) {
+                    return o && o[k]; // get inner property if `o` is defined else get `o` and return
+                }, obj1) // set initial value as object
+        }
 
-    const updateNoteByTitle = (title, noteId) => {
-        axios.put("localhost:8080/updateNoteBTitle" + "?" + "title=" + title + "&" + "noteId=" + noteId).then(res => {
-            let noteIndex = regUserObj.notes.findIndex(element => element.noteId == noteId);
-            regUserObj.notes[noteIndex] = res.data;
-        }
+        const getNotesForRegularUser = () => {
+            const notes = getPropertyValue(regularUser, "notes");
+            setRegularUserNotes(notes);
+        }
 
-        )
-    }
+        getNotesForRegularUser();
+    });
 
-    const updateNoteByDescription = (description, noteId) => {
-        axios.put("localhost:8080/updateNoteByDescription" + "?" + "description=" + description + "&" + "noteId=" + noteId).then(res => {
-            let noteIndex = regUserObj.notes.findIndex(element => element.noteId == noteId);
-            regUserObj.notes[noteIndex] = res.data;
-        }
-        )
-    }
+    const updateNoteByTitle = (title, noteId) => {
+        axios.put("http://localhost:8080/updateNoteByTitle" + "?" + "title=" + title + "&" + "noteId=" + noteId).then(res => {
+            /*let noteIndex = regUserObj.notes.findIndex(element => element.noteId == noteId);
+            regUserObj.notes[noteIndex] = res.data; */
+            console.log(res.data);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 
-    useEffect (() => {
-        getAllRegularUsers();
-      })
+    const updateNoteByDescription = (description, noteId) => {
+        axios.put("http://localhost:8080/updateNoteByDescription" + "?" + "description=" + description + "&" + "noteId=" + noteId).then(res => {
+            /*let noteIndex = regUserObj.notes.findIndex(element => element.noteId == noteId);
+            regUserObj.notes[noteIndex] = res.data;*/
+            console.log(res.data);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 
-    const addNoteHandler = (title, description, regUserId) => {
-        createNote (title, description, regUserId);
-    } 
+    const deleteNoteById = (noteId) => {
+        axios.delete("http://localhost:8080/deleteNoteById" + "?" + "noteId=" + noteId).then( () => {
+            // let noteIndex =regularUserNotes.findIndex(element => element.noteId == noteId);
+            // regUserObj.notes.splice(noteIndex, 1);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 
-    const [expanded, setExpanded] = React.useState('panel1');
-  
-    const handleChange = () => {
-    
-    };
+    const updateNoteTitle = (val, noteId) => {
+        if (regularUserNotes) {
+            const index = regularUserNotes.findIndex(element => element.id == noteId);
+            const note = regularUserNotes.find(element => element.id == noteId);
+            if (note) {
+                note.title = val;
+                setRegularUserNotes(regularUserNotes.splice(index, 1, note));
+            }
+        } 
+    }
 
-    const handleSaveTitle = (title, id) => {
-        updateNoteByTitle(title, id);
-    }
+    const updateNoteDescription = (val, noteId) => {
+        console.log('In onChange');
+        if (regularUserNotes) {
+            const index = regularUserNotes.findIndex(element => element.id == noteId);
+            const note = regularUserNotes.find(element => element.id == noteId);
+            console.log('gotten note');
+            if (note) {
+                note.description = val;
+                setRegularUserNotes(regularUserNotes.splice(index, 1, note));
+                console.log('updated note');
+            }
+        } 
+        console.log(textareaRef.current.value);
+    }
 
-    const handleSaveDescription = (description, id) => {
-        updateNoteByDescription(description, id);
-    }
+    const handleDelete = (noteId) => {
+        if (regularUserNotes) {
+            const index = regularUserNotes.findIndex(element => element.id == noteId);
+            setRegularUserNotes(regularUserNotes.splice(index, 1));
+            deleteNoteById(noteId);
+        }
+    }
 
-    const handleDeleteNote = (id) => {
-        deleteNoteById(id);
-    }
-      
-    const noteData = [
-        {
-          title: "Last one for testinggg",
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum ac erat non viverra. Maecenas elementum augue ac nibh porta viverra. Etiam sed volutpat ante. In ultrices lacinia est eget pretium. Nunc ac orci lectus. Pellentesque vestibulum libero eu nibh commodo, in dictum nunc dapibus. Quisque et accumsan diam. Nulla vel nunc facilisis ex fringilla eleifend. Sed fringilla mi velit, sed aliquam purus commodo sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
-          regularUser: {
-            name: "Shalom"
-          },
-          date: "June 10th",
-          featured: true
-        },
-        {
-          title: "The title",
-          description: "The description",
-          regularUser: {
-            name: "Shalom"
-          },
-          date: "June 10th",
-          featured: true
-        },
-        {
-          title: "Another title ya feel",
-          description: "Another description ya feel",
-          regularUser: {
-            name: "Shalom"
-          },
-          date: "June 11th",
-          featured: true
-        }
-      ];
+    // TO DO:
+    // Add Edit/Cancel button -> so changes can be undone
+    // Add Delete [\/]
+
+    // For edit, how do we check wh
 
     return(
-        <div className="containerD"> 
-            <Collapse accordion className="panels">
-                {/* Will replace noteData with regUserObj.notes.map(note => ) + corresponding fields */}
-                {noteData.map(note => (
-                    <Panel header={<ContentEditable
-                        html={note.title}
-                    />} classname="location">
-                    <p className="panels">{<ContentEditable
-                                        html={note.description}
-                                        onChange={() => handleChange()}
-                                    />}</p>
-                </Panel>
+        <div className="containerD">
+            <div className="userNotes">
+                {regularUserNotes && regularUserNotes.map(note => (
+                    <div className={`note_${note.id}`} key={note.id}>
+                        <form>
+                            <div>
+                                <Editable
+                                    key={note.id}
+                                    text={note.title}//huh?
+                                    childRef={inputRef}
+                                    type="input">
+                                    <input
+                                        ref={inputRef}
+                                        type="text"
+                                        name="title"
+                                        defaultValue={note.title}
+                                        onChange={e => updateNoteTitle(e.target.value, note.id)}
+                                    />
+                                </Editable>
+                            </div>
+                            <div>
+                                <Editable
+                                    key={note.id}
+                                    text={note.description}//huh?
+                                    childRef={textareaRef}
+                                    type="textarea">
+                                    <textarea
+                                        className="notebody"
+                                        ref={textareaRef}
+                                        type="text"
+                                        name="description"
+                                        defaultValue={note.description}
+                                        onChange={e => updateNoteDescription(e.target.value, note.id)}
+                                    />
+                                </Editable>
+                            </div>
+                        </form>
+                        <button>Edit</button>
+                        <button onClick={() => handleDelete(note.id)}>Delete</button>
+                    </div>
                 ))}
-            </Collapse>
+            </div>
         </div>
-    );
+    )
 
 }
 
-export default DisplayNotes;
+export default DisplayNotes; 
