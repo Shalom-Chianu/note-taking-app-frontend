@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+/* @import url(https://fonts.googleapis.com/css?family=Roboto:300); */
 
 .message {
   margin: 0px;
@@ -29,6 +29,77 @@
   align-items: center;
   background-color: #cf7500; 
 }
+
+@font-face {
+  font-family: 'ArimoRegular';
+  src: local('Arimo'), url(./Fonts/Arimo-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'ArimoBold';
+    font-weight: 900;
+    src: local('Arimo'), url(./Fonts/Arimo-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'ArimoItalic';
+    /* font-weight: 900; */
+    src: local('Arimo'), url(./Fonts/Arimo-Italic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'ArimoBoldItalic';
+  /* font-weight: 900; */
+  src: local('Arimo'), url(./Fonts/Arimo-BoldItalic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'DidactGothic';
+  src: local('DidactGothic'), url(./Fonts/DidactGothic-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoBlack';
+  font-weight: 900;
+  src: local('Roboto'), url(./Fonts/Roboto-Black.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoBold';
+  font-weight: 700;
+  src: local('Roboto'), url(./Fonts/Roboto-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoSemiBold';
+  font-weight: 600;
+  src: local('Roboto'), url(./Fonts/Roboto-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoMedium';
+  font-weight: 500;
+  src: local('Roboto'), url(./Fonts/Roboto-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoRegular';
+  font-weight: 400;
+  src: local('Roboto'), url(./Fonts/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoLight';
+  font-weight: 300;
+  src: local('Roboto'), url(./Fonts/Roboto-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoThin';
+  font-weight: 100;
+  src: local('Roboto'), url(./Fonts/Roboto-Thin.ttf) format('truetype');
+}
+
 
 /*
 .App-logo {

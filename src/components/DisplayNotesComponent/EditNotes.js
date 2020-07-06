@@ -80,9 +80,14 @@ function EditNotes() {
   const classes = useStyles();
 
   const handleClickOpen = (noteId) => {
+    console.log(noteId);
     setCurrentNote(noteId);
+    console.log("This is the id " + noteId);
+    console.log("Note id has been updated " + currentNote);
+    console.log(getCurrentNote());
     setOpen(true);
   };
+  
   const handleClose = () => {
     setOpen(false);
     setCurrentNote(-1);
