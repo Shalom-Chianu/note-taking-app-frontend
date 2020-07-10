@@ -6,7 +6,7 @@ import { Link,  Redirect } from 'react-router-dom';
 import { useAuth } from "../../context/auth";
 //import { Route , withRouter} from 'react-router-dom';
 
-function Login() {
+function Login(props) {
   
   // Declare a new state variable
   const [email, setEmail] = useState("");

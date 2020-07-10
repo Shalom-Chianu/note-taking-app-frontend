@@ -82,6 +82,8 @@ function Layout() {
     const [filterValue, setFilterValue] = useState(false);
     const [currentNoteId, setCurrentNoteId] = useState(-1);
     const [currentNote, setCurrentNote] = useState({});
+    const [currentNoteTitle, setCurrentNoteTitle] = useState("");
+    const [currentNoteDescription, setCurrentNoteDescription] = useState("");
     const inputRef = useRef();
     const textareaRef = useRef();
 
@@ -134,7 +136,11 @@ function Layout() {
     const handleShowNote = (noteId) => {
         setCurrentNoteId(noteId);
         if(noteId != -1 && regularUserNotes) {
+            let note = regularUserNotes.find(element => element.id == noteId)
             setCurrentNote(regularUserNotes.find(element => element.id == noteId));
+            setCurrentNoteTitle(note.title)
+            setCurrentNoteDescription(note.description)
+            
           }
     };
 
@@ -146,7 +152,7 @@ function Layout() {
     // };
 
     const updateNoteById = (title, description, noteId) => {
-        let url = description ? "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "description=" + description + "&" + "noteId=" + noteId : "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "noteId=" + noteId;
+        let url = description ? "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "description=" + description + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id: "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id ;
         axios.put(url).then(res => {
                 // update Regular User State?
 
@@ -165,7 +171,16 @@ function Layout() {
     };
 
     const deleteNoteById = (noteId) => {
-        axios.delete("http://localhost:8080/deleteNoteById" + "?" + "noteId=" + noteId).then( () => {
+        
+        if(regularUserNotes){
+            setCurrentNoteTitle(regularUserNotes[0].title);
+            setCurrentNoteDescription(regularUserNotes[0].description);
+        } else {
+            setCurrentNoteTitle("");
+            setCurrentNoteDescription("");
+            setCurrentNoteId(regularUserNotes[0].id)
+        }
+        axios.delete("http://localhost:8080/deleteNoteById" + "?" + "noteId=" + noteId + "&" + "regularUserId=" + regularUser.id).then( () => {
             // let noteIndex =regularUserNotes.findIndex(element => element.noteId == noteId);
             // regUserObj.notes.splice(noteIndex, 1);
         }).catch(e => {
@@ -174,13 +189,16 @@ function Layout() {
     }
 
     const createNote = (title, description, regularUserId) => {
+
+
         let note = {};
 
         axios.post("http://localhost:8080/createNote/" + "?" + "title=" + title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
             note = {...res.data}
             regularUserNotes.unshift(note);
+            setCurrentNoteId(note.id);
             handleShowNote(note.id);
-            console.log(note);
+        
         }
         ).catch(e => {
             console.log(e);
@@ -189,9 +207,8 @@ function Layout() {
     } 
 
     const handleUpdate = (title, description, noteId) => {
-        console.log("This is the title: " + title);
-        console.log("This is the description: " + description);
-        console.log("This is the note id: " + noteId);
+        setCurrentNoteTitle(title);
+        setCurrentNoteDescription(description);
         updateNoteById(title, description, noteId); 
     };
 
@@ -225,14 +242,11 @@ function Layout() {
         if (searchWord !== "") {
             setFilterValue(true);
             currentList = regularUserNotes;
-            console.log(searchWord);
-            console.log(currentList);
+        
             newList = currentList.filter(item => {
                 const body = item.title + item.description;
-                console.log(body);
                 return body.toLowerCase().includes(searchWord.toLowerCase());
             });
-            console.log(newList);
 
             setFilteredList(newList);
         } else {
@@ -253,6 +267,7 @@ function Layout() {
         let title = "Note" + (regularUserNotes.length + 1);
         let description = "";
         createNote(title, description, regularUser.id);
+        
     }
 
 
@@ -285,7 +300,7 @@ function Layout() {
                 <input
                     type="text"
                     key = {currentNoteId}
-                    defaultValue={currentNote.title} /*{getCurrentNote() ? getCurrentNote().title : ""}*/
+                    value={currentNoteTitle} /*{getCurrentNote() ? getCurrentNote().title : ""}*/
                     style={{ margin: 8,}}
                     className="title"
                     ref={inputRef}
@@ -294,7 +309,7 @@ function Layout() {
                 <textarea 
                 className="description"
                 key = {currentNoteId + 1}
-                defaultValue={currentNote.description}/*{getCurrentNote() ? getCurrentNote().description : ""}*/
+                value={currentNoteDescription}/*{getCurrentNote() ? getCurrentNote().description : ""}*/
                 ref={textareaRef}
                 onChange = {(e) => handleUpdate(currentNote.title, e.target.value, currentNoteId)}
                 ></textarea>

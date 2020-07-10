@@ -31,19 +31,38 @@ const style = {
 function Navbar() {
 
   const classes = useStyles();
+
   const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+  const [login, setLogin] = useState("Login");
+  const [addNote, setAddNote] = useState("Register")
   const [authTokens, setAuthTokens] = useState(existingTokens);
   const isAuthenticated = useAuth();
 
   const handleLogOut = () => {
-    setAuthTokens();
+    setAuthTokens("");
+    setLogin("Login")
+    setAddNote("Register")
     localStorage.clear();
   }
   const handleLogIn = () => {
-    console.log(existingTokens);
-    return <Redirect to="/" />;
+    setLogin("Logout")
+    setAddNote("Add Note")
+    console.log(" X Token: " + existingTokens);
+    setAuthTokens(existingTokens);
+    //eturn <Redirect to="/" />;
   }
- 
+
+
+  useEffect(() => {
+    const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+    if (!existingTokens) {
+      setLogin("Login")
+      setAddNote("Register")
+    } else {
+      setLogin("Logout")
+      setAddNote("Add Note")
+    }
+  })
   return (
     <div className={classes.root}>
       <AppBar style={style} position="static">
@@ -56,16 +75,19 @@ function Navbar() {
           </Typography>
 
           {
-            existingTokens ? <div> <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                  <Button color="inherit"
-                    onClick={() => handleLogOut()}>Logout</Button>
-                </Link> <Link to='/newnotes' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                  <Button color="inherit">Add Note</Button>
-                </Link> </div> : <div>  <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-              <Button color="inherit">Register</Button>
-            </Link>
-              <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>  <Button color="inherit"
-                onClick={() => handleLogIn()}>Login</Button> </Link> </div>
+            authTokens ? <div> <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+              <Button color="inherit"
+                onClick={() => handleLogOut()}>{login}</Button>
+            {/* </Link> <Link to='/layout' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
+                <Button color="inherit">{addNote}</Button>
+              </Link> </div> :
+
+              <div> <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                <Button color="inherit"
+                  onClick={() => handleLogIn()}>{login}</Button>
+              {/* </Link> <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
+                  <Button color="inherit">{addNote}</Button>
+                </Link> </div>
           }
 
 
@@ -74,5 +96,6 @@ function Navbar() {
     </div>
   );
 }
+
 
 export default Navbar;

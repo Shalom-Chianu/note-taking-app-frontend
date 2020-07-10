@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/LoginComponent/Login.js';
 import Register from './components/RegisterComponent/Register';
 import NewNotes from './components/NewNotesComponent/NewNotes';
-import Navbar from './components/NavbarComponent/Navbar';
+import Navbar from './components/NavBarComponent/Navbar'
 import Homepage from './components/HomepageComponent/Homepage';
 import DisplayNotes from './components/DisplayNotesComponent/DisplayNotes';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
