@@ -1,12 +1,14 @@
-.Homepage-header {
-    background-color: #cf7500;
-    min-height: 100vh;
+.HomepageStyle {
+    background-color: #b43a05;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    font-family: coolvetica;
+    letter-spacing: 10px;
   }
 
 .buttoncontainer {
@@ -18,17 +20,13 @@
 .loginb {
     width: 180px;
     height: 30px;
-    margin-right: 5px;
+    margin-right: 1px;
 }
 
 .registerb {
     width: 180px;
     height: 30px;
-    margin-left: 5px;
-}
-
-.loginb:hover {
-    background-color: #043927;
+    margin-left: 1px;
 }
 
 .loginb {
@@ -36,14 +34,14 @@
     background-color: #417cef; 
     font-size: 18px;
     border-radius: 3px;
-    font-family: Oxygen, sans-serif;
+    font-family: coolvetica;
     background-color: #ffffff;
     margin-top: 20px;
     border: none;
     /*border: 2px solid #f0a500; */
     transition: background-color 0.3s ease-out;
     cursor: pointer;
-    color: #000000;
+    color: #b43a05;
 }
 
 .loginb:hover,
@@ -57,14 +55,14 @@
     background-color: #417cef; 
     font-size: 18px;
     border-radius: 3px;
-    font-family: Oxygen, sans-serif;
+    font-family: coolvetica;
     background-color: #ffffff;
     margin-top: 20px;
     border: none;
     /*border: 2px solid #f0a500; */
     transition: background-color 0.3s ease-out;
     cursor: pointer;
-    color: #000000;
+    color: #b43a05;
 }
 
 .registerb:hover,

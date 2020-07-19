@@ -1,116 +1,96 @@
 .container {
-     /* height: 100%;
-    width: 100%;  */
-    display: grid;
-    grid-template-columns: 25% 75%;
-    grid-template-areas: "c1 c2";
-    grid-template-rows: auto;
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    flex-direction: row;
 }
 
 .column1 {
-    grid-area: c1;
     background-color: rgb(66, 82, 184);
+    width: 25%;
     height: 100%;
-    min-width: 25%;
-    display: inline-block;
+    position: relative;
 }
 
 .column2 {
-    grid-area: c2;
-    background-color: #dce1fa/* #deecff /* #f3f8ff /* rgb(253, 243, 204) */;
+    background-color: #dce1fa;
     height: 100%;
-    width: 100%;
-    min-width: 75%;   
-    border-left: 10px solid #000000; 
-    display: inline-block;
-
+    width: 75%;
+    border-left: 5px solid  rgb(36, 47, 122); 
 }
 
 .title {
     width: 100%;
-    background-color: #dce1fa/*#deecff /*#f3f8ff /* rgb(253, 243, 204) /* #ffffff*/;
+    height: 100%;
+    background-color: #deecff;
     color: rgb(36, 47, 122);
-    display: inline-block;
-    margin: 0px;
     border: none;
-    border-bottom: 2px solid rgb(36, 47, 122);
-    font-family: ArimoBoldItalic;
+    font-family: Coolvetica;
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 
 .title:focus {
     outline: none;
+    background: rgb(36, 47, 122);
+    color: #deecff;
+}
+
+.titleDiv {
+    height: 6%;
+    border-bottom: 3px solid rgb(36, 47, 122);
+    box-sizing: border-box;
+}
+
+.descriptionDiv {
+    height: 94%;
 }
 
 .description {
     width: 100%;
-    height: 100vh;
-    background-color: #dce1fa/*#deecff /*#f3f8ff /*rgb(253, 243, 204) /* #ffffff*/; 
+    height: 100%;
+    background-color: #deecff; 
     border: none;
-    /* font-family: '-apple-system', 'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'; */
-    font-family: ArimoRegular;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 10px;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
+    font-family: RobotoLight;
     outline: none;
     color: rgb(36, 47, 122);
     resize: none;
-    display: inline-block;
     font-size: 16px;
+    box-sizing: border-box;
+    padding: 10px;
 }
 
-.addbutton {
-background-color: rgb(36, 47, 122); /* Green */
-  border: none;
-  color: white;
-  padding: 10px ;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  width: 100%;
-  padding-left: -15px;
-  border: 5px solid rgb(66, 82, 184);
-  border-bottom: #000000;
-}
-
-.addbutton:hover {
-    background-color: black;
+.searchAndButtons {
+    height: 10%;
 }
 
 .userNotes {
-    display: flex;
-    flex-direction: column;
+    overflow: scroll;
+    position: relative;
+    height: 90%;
     width: 100%;
-    height: 100%;
-}
+} 
 
 .note {
     width: 100%;
-    height: 40px;
-    border-top: 1px  solid rgb(36, 47, 122);
-    border-bottom: 1px  solid rgb(36, 47, 122);
+    height: 65px;
+    border-top: 1px solid rgb(36, 47, 122);
+    border-bottom: 1px solid rgb(36, 47, 122);
+    box-sizing: border-box;
     color: white;
-    padding: 8px 15px 15px 10px;
-    
+    padding: 8px 15px 0px 10px;
 }
 
 .notehighlight {
     width: 100%;
-    height: 40px;
+    height: 65px;
     border-top: 1px  solid rgb(36, 47, 122);
     border-bottom: 1px  solid rgb(36, 47, 122);
-    padding: 10px;
+    padding: 8px 15px 0px 10px;
+    box-sizing: border-box;
     color: white;
     background-color: rgb(36, 47, 122);
 }
@@ -122,13 +102,17 @@ background-color: rgb(36, 47, 122); /* Green */
 .sideTitle {
     font-weight: bolder;
     font-weight: 500;
-    font-family: RobotoMedium;
+    padding: 0px;
+    margin-bottom: -2px;
+    font-family: Coolvetica;
 }
 
 .sideDescription {
     font-size: 13px;
-    font-family: RobotoLight;
-
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
 }
 
 .sideDate {
@@ -143,33 +127,36 @@ background-color: rgb(36, 47, 122); /* Green */
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inherit;
-    /* display: -webkit-box;
-    -webkit-line-clamp: 1; 
-    -webkit-box-orient: vertical;  */
  } 
 
  .btn-group button {
-    background-color: rgb(36, 47, 122); /* Green background */
-    border: 1px solid black; /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    float: left; /* Float the buttons side by side */
+    background-color: #deecff; 
+    border: 1px solid rgb(36, 47, 122);
+    border-bottom: 1px solid #deecff;
+    border-top: 1px solid #deecff;
+    color: rgb(36, 47, 122); 
+    padding: 10px 24px; 
+    cursor: pointer; 
+    float: left; 
     width: 50%;
+    font-family: RobotoBold;
   }
   
   .btn-group button:not(:last-child) {
-    border-right: none; /* Prevent double borders */
+    border-right: none; 
   }
   
-  /* Clear floats (clearfix hack) */
   .btn-group:after {
     content: "";
     clear: both;
     display: table;
   }
   
-  /* Add a background color on hover */
   .btn-group button:hover {
-    background-color: black;
+    background-color: rgb(36, 47, 122);
+    color:#deecff;
+  }
+
+  .btn-group button:focus {
+    outline: none;
   }

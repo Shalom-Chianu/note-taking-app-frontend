@@ -79,18 +79,14 @@ function Register() {
     return (
         <div className="root-container">
 
-            <div className="title">
-                <h1>Note-Taking App</h1>
-            </div>
-
             <div className="subtitle">
-                <p>(Subtitle)</p>
+                <p>Jotter</p>
             </div>
 
             <div className="box-container">
                 <div className="inner-container">
                     <div className="header">
-                        Register
+                        REGISTER
                     </div>
                     <div className="box">
 
@@ -137,7 +133,7 @@ function Register() {
                     </button>
 
                         <div>
-                            <p className="message">Already have an account? <Link to="/login">
+                            <p className="message">Already have an account? <Link to="/login" className="littleLink">
                                 Login
                     </Link></p>
                         </div>

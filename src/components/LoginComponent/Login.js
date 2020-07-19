@@ -87,18 +87,14 @@ function Login(props) {
   return (
     <div className="root-container">
 
-      <div className="title">
-        <h1>Note-Taking App</h1>
-      </div>
-
       <div className="subtitle">
-        <p>(Subtitle)</p>
+        <p>Jotter</p>
       </div>
 
       <div className="box-container">
         <div className="inner-container">
           <div className="header">
-            Login
+            LOGIN
                 </div>
           <div className="box">
 
@@ -127,7 +123,7 @@ function Login(props) {
                 </button>
 
             <div>
-              <p className="message">Don't have an Account? <Link to="/register">
+              <p className="message">Don't have an Account? <Link to="/register" className="littleLink">
                 Register
                   </Link></p>
             </div>

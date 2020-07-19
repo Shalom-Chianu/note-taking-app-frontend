@@ -7,8 +7,8 @@
   text-align: center;
   text-decoration: none;
   position: relative; 
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   
 }
 
@@ -22,12 +22,13 @@
 }
 
 .rootcontainer {
-  width: 100%;
+  /* width: 100%;  */
   height: 100%;
-  display: flex; 
+  /* display: flex; 
   justify-content: center;
-  align-items: center;
-  background-color: #cf7500; 
+  align-items: center; */
+  display: block;
+  background-color: #000000 ;/* #b43a05;  */
 }
 
 @font-face {
@@ -95,9 +96,44 @@
 }
 
 @font-face {
+  font-family: 'RobotoLightItalic';
+  font-weight: 300;
+  src: local('Roboto'), url(./Fonts/Roboto-LightItalic.ttf) format('truetype');
+}
+
+@font-face {
   font-family: 'RobotoThin';
   font-weight: 100;
   src: local('Roboto'), url(./Fonts/Roboto-Thin.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Milona';
+/* font-weight: 100; */
+  src: local('Milona'), url(./Fonts/Milona.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Minimal';
+/* font-weight: 100; */
+  src: local('Minimal'), url(./Fonts/minimal.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'DomineBold';
+/* font-weight: 100; */
+  src: local('Domine'), url(./Fonts/Domine-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: local('Domine'), url(./Fonts/coolvetica\ rg.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoSlab';
+ font-weight: 900;
+  src: local('RobotoSlab'), url(./Fonts/RobotoSlab-VariableFont_wght.ttf) format('truetype');
 }
 
 

@@ -1,47 +1,22 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './Layout.css';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import { black } from 'color-name';
 import axios from 'axios';
-import { Input } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-       marginLeft: theme.spacing(0),
-       marginRight: theme.spacing(2),
-       width: '25ch',
-    },
-    root: {
-        '& > *': {
-          margin: theme.spacing(1),
-        },
-      },
-
-    weight: {
-        fontWeight: "bolder",
-        spacing: '10px',
-        fontFamily: 'RobotoBlack',
-    },
 
     search: {
         position: 'relative',
-        //borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
           backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-        //   marginLeft: theme.spacing(1),
-          width: 'auto',
+        width: 'auto',
         },
     },
     
@@ -57,11 +32,12 @@ const useStyles = makeStyles((theme) => ({
 
     inputRoot: {
         color: 'inherit',
+        fontFamily: 'RobotoLight',
+
     },
 
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -212,30 +188,6 @@ function Layout() {
         updateNoteById(title, description, noteId); 
     };
 
-    const renderDefaultListView = () => {
-        return <div className="userNotes">
-            {regularUserNotes && regularUserNotes.map(note => (
-                <div className={currentNoteId == note.id ? "notehighlight" : "note"} key={note.id} onClick={() => handleShowNote(note.id)}>
-                    <span className="sideTitle" id="text">{note.title}</span>
-                    <span className="sideDescription" id="text">{note.description}</span>
-                    <span className="sideDate" id="text">{note.date}</span>
-                </div>
-            ))}
-        </div>
-    }
-
-    const renderFilteredListView = () => {
-        return <div className="userNotes"> 
-        {filteredList && filteredList.map(note => (
-            <div className={currentNoteId == note.id ? "notehighlight" : "note"} key={note.id} onClick={ () => handleShowNote(note.id)}>
-                <span className="sideTitle" id="text">{note.title}</span>
-                <span className="sideDescription" id="text">{note.description}</span>
-                <span className="sideDate" id="text">{note.date}</span>
-            </div>
-        ))}
-        </div>
-    }
-
     const handleSearchChange = (searchWord) => {
         let currentList = [];
         let newList = [];
@@ -270,51 +222,77 @@ function Layout() {
         
     }
 
+    const renderDefaultListView = () => {
+        return <div className="userNotes">
+            {regularUserNotes && regularUserNotes.map(note => (
+                <div className={currentNoteId == note.id ? "notehighlight" : "note"} key={note.id} onClick={() => handleShowNote(note.id)}>
+                    <span className="sideTitle" id="text">{note.title}</span>
+                    <span className="sideDescription" id="text">{note.description}</span>
+                    <span className="sideDate" id="text">{note.date}</span>
+                </div>
+            ))}
+        </div>
+    }
+
+    const renderFilteredListView = () => {
+        return <div className="userNotes"> 
+        {filteredList && filteredList.map(note => (
+            <div className={currentNoteId == note.id ? "notehighlight" : "note"} key={note.id} onClick={ () => handleShowNote(note.id)}>
+                <span className="sideTitle" id="text">{note.title}</span>
+                <span className="sideDescription" id="text">{note.description}</span>
+                <span className="sideDate" id="text">{note.date}</span>
+            </div>
+        ))}
+        </div>
+    }
 
     return(
         <div className="container">
             <div className="column1">
+                <div className="searchAndButtons">
                     <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                    <SearchIcon />
-                    </div>
-                    <InputBase
-                    placeholder="Search…"
-                    classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                    }}
-                    inputProps={{ 'aria-label': 'search' }}
-                    onChange = {(e) => handleSearchChange(e.target.value)}
-                    />
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                            onChange={(e) => handleSearchChange(e.target.value)}
+                        />
                     </div>
                     <div className="btn-group">
-                        <button onClick={() => handleAddNote()}>Add</button>
-                        <button onClick={() => handleDeleteNote()}>Delete</button>
+                        <button onClick={() => handleAddNote()}>ADD</button>
+                        <button onClick={() => handleDeleteNote()}>DELETE</button>
                     </div>
-                    {!filterValue ? renderDefaultListView() : renderFilteredListView()}
+                </div>
+                {!filterValue ? renderDefaultListView() : renderFilteredListView()}
             </div>
 
             <div className="column2">
-                <div className="userNotes">
+                <div className="titleDiv">
                 <input
                     type="text"
-                    key = {currentNoteId}
-                    value={currentNoteTitle} /*{getCurrentNote() ? getCurrentNote().title : ""}*/
-                    style={{ margin: 8,}}
+                    key={currentNoteId}
+                    value={currentNoteTitle}
                     className="title"
                     ref={inputRef}
-                    onChange = {(e) => handleUpdate(e.target.value, currentNote.description, currentNoteId)}
+                    onChange={(e) => handleUpdate(e.target.value, currentNote.description, currentNoteId)}
                 />
+                </div>
+                <div className="descriptionDiv">
                 <textarea 
                 className="description"
                 key = {currentNoteId + 1}
-                value={currentNoteDescription}/*{getCurrentNote() ? getCurrentNote().description : ""}*/
+                value={currentNoteDescription}
                 ref={textareaRef}
                 onChange = {(e) => handleUpdate(currentNote.title, e.target.value, currentNoteId)}
                 ></textarea>
                 </div>
-            </div>
+                </div>
         </div>
     );
 

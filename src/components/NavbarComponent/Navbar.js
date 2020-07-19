@@ -8,10 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link, Redirect } from 'react-router-dom'
 import { useAuth } from "../../context/auth";
+import './Navbar.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    width: '100%',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -19,11 +20,22 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     color: '#ffffff',
+    fontFamily: 'RobotoThin',
   },
+  button: {
+    backgroundColor: '#4CAF50',
+    border: 'none',
+    color: 'white',
+    padding: '15px 32px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    display: 'inline-block',
+    fontSize: '16px',
+    fontFamily: 'RobotoLight',
+  }
 }));
 
 const style = {
-
   background: '#000000',
 };
 
@@ -75,18 +87,18 @@ function Navbar() {
           </Typography>
 
           {
-            authTokens ? <div> <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-              <Button color="inherit"
+            authTokens ? <div> <Link to='/login' className="button">
+              <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
                 onClick={() => handleLogOut()}>{login}</Button>
             {/* </Link> <Link to='/layout' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
-                <Button color="inherit">{addNote}</Button>
+                <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
               </Link> </div> :
 
-              <div> <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                <Button color="inherit"
+              <div> <Link to='/login' className="button">
+                <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
                   onClick={() => handleLogIn()}>{login}</Button>
               {/* </Link> <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
-                  <Button color="inherit">{addNote}</Button>
+                  <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
                 </Link> </div>
           }
 

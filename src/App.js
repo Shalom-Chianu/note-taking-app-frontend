@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/LoginComponent/Login.js';
 import Register from './components/RegisterComponent/Register';
 import NewNotes from './components/NewNotesComponent/NewNotes';
-import Navbar from './components/NavBarComponent/Navbar'
+import Navbar from './components/NavbarComponent/Navbar';
 import Homepage from './components/HomepageComponent/Homepage';
 import DisplayNotes from './components/DisplayNotesComponent/DisplayNotes';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -25,31 +25,31 @@ function App() {
    setAuthTokens(data);
  }
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-    <Router>
-      <Navbar />
-      <div className="rootcontainer">
-        <Switch>
-          <PseudoAccessRoute path="/" exact component={Homepage} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/editnotes" component={EditNotes} />
-          <Route path="/layout" component={Layout} />
-          <PrivateRoute path="/newnotes" component={NewNotes}>
-          </PrivateRoute>
-          <PrivateRoute path="/displaynotes" component={DisplayNotes}>
-   
-          </PrivateRoute>
-          <PrivateRoute path="/notetakingapp" component={NoteTakingApp} >
+      <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+        <Router>
+        <Navbar />
+          <div className="rootcontainer">
+            <Switch>
+              <PseudoAccessRoute path="/" exact component={Homepage} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/editnotes" component={EditNotes} />
+              <Route path="/layout" component={Layout} />
+              <PrivateRoute path="/newnotes" component={NewNotes}>
+              </PrivateRoute>
+              <PrivateRoute path="/displaynotes" component={DisplayNotes}>
 
-          </PrivateRoute>
-          
-         
-        
-        </Switch>
-      </div>
-    </Router>
-    </AuthContext.Provider>
+              </PrivateRoute>
+              <PrivateRoute path="/notetakingapp" component={NoteTakingApp} >
+
+              </PrivateRoute>
+
+
+
+            </Switch>
+          </div>
+        </Router>
+      </AuthContext.Provider>
   ); 
 }
 
