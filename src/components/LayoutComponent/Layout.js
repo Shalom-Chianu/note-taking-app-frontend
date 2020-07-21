@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext } from 'react';
 import './Layout.css';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import { AuthContext } from '../../Auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,31 +65,31 @@ function Layout() {
     const textareaRef = useRef();
 
 
-    useEffect(() => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-    
-        const existingTokens = JSON.parse(localStorage.getItem("tokens"));
-    
-        const getRegularUserByEmail = (email) => {
-            try {
-                axios.get("https://note-taking-app-backend-01.herokuapp.com/getRegularUserByEmail/" + "?" + "email=" + email).then(res => {
-                    setRegularUser(res.data);
-                });
-            } catch (error) {
-                if (axios.isCancel(error)) {
-                    console.log("cancelled");
-                } else {
-                    throw error;
-                }
+    const { currentUser } = useContext(AuthContext);
+
+    const getRegularUserByEmail = (email) => {
+        try {
+            axios.get("https://note-taking-app-backend-01.herokuapp.com/getRegularUserByEmail/" + "?" + "email=" + email).then(res => {
+                setRegularUser(res.data);
+            });
+        } catch (error) {
+            if (axios.isCancel(error)) {
+                console.log("cancelled");
+            } else {
+                throw error;
             }
-        };
+        }
+    };
+
+    useEffect(() => {
+        // const CancelToken = axios.CancelToken;
+        // const source = CancelToken.source();
     
-        getRegularUserByEmail(existingTokens);
+        getRegularUserByEmail(currentUser.email);
     
-        return () => {
-            source.cancel();
-        };
+        // return () => {
+        //     source.cancel();
+        // };
     
     }, []);
     

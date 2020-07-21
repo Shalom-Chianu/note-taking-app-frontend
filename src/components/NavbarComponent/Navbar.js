@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,8 +7,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link, Redirect } from 'react-router-dom'
-import { useAuth } from "../../context/auth";
 import './Navbar.css';
+import app from "../../firebase.js";
+import { AuthContext } from '../../Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,41 +41,36 @@ const style = {
 };
 
 
-function Navbar() {
+function Navbar({userStatus, setUserStatus}) {
 
   const classes = useStyles();
 
   const existingTokens = JSON.parse(localStorage.getItem("tokens"));
-  const [login, setLogin] = useState("Login");
   const [addNote, setAddNote] = useState("Register")
   const [authTokens, setAuthTokens] = useState(existingTokens);
-  const isAuthenticated = useAuth();
 
-  const handleLogOut = () => {
-    setAuthTokens("");
-    setLogin("Login")
-    setAddNote("Register")
-    localStorage.clear();
+  const handleLogout = () => {
+    if (JSON.parse(localStorage.getItem("tokens"))) {
+      console.log("Logging out...");
+      localStorage.clear();
+      setUserStatus("Login");
+      setAddNote("Register");
+    }
   }
-  const handleLogIn = () => {
-    setLogin("Logout")
+
+  const handleLogin = () => {
+    localStorage.clear();
+    setUserStatus("Logout")
     setAddNote("Add Note")
     console.log(" X Token: " + existingTokens);
-    setAuthTokens(existingTokens);
-    //eturn <Redirect to="/" />;
   }
 
+  const handleSubmit = () => { 
+        app.auth().signOut();
+        setUserStatus("Login");
+   
+  }
 
-  useEffect(() => {
-    const existingTokens = JSON.parse(localStorage.getItem("tokens"));
-    if (!existingTokens) {
-      setLogin("Login")
-      setAddNote("Register")
-    } else {
-      setLogin("Logout")
-      setAddNote("Add Note")
-    }
-  })
   return (
     <div className={classes.root}>
       <AppBar style={style} position="static">
@@ -86,22 +82,14 @@ function Navbar() {
             <b>Note Taking App</b>
           </Typography>
 
-          {
-            authTokens ? <div> <Link to='/login' className="button">
-              <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
-                onClick={() => handleLogOut()}>{login}</Button>
-            </Link> <Link to='/layout' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
-              </Link> </div> :
-
-              <div> <Link to='/login' className="button">
-                <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
-                  onClick={() => handleLogIn()}>{login}</Button>
-              </Link> <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                  <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
-                </Link> </div>
-          }
-
+            <div>
+              <Link to='/login' className="button">
+                <Button color="inherit" style={{ fontFamily: 'RobotoLight' }}
+                   onClick={() => handleSubmit()}>
+                  {userStatus}
+                  </Button>
+              </Link>
+            </div>
 
         </Toolbar>
       </AppBar>

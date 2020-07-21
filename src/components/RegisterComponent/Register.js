@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../LoginComponent/Login.css';
 import {Link} from 'react-router-dom';
+import app from "../../firebase.js";
+import { withRouter, Redirect } from "react-router";
 
-function Register() {
+function Register({history, setUserStatus}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
@@ -40,7 +42,7 @@ function Register() {
         return promise;
     }
 
-   const registrationHandler = (email, username, name) => {
+   const registrationHandler = (name, email, username, password) => {
         createAccount (email, username)
         .then (
             e => { 
@@ -48,12 +50,19 @@ function Register() {
         .then( 
             e => { 
                 getAllRegularUsers()
-       /* .then (
+        .then (
             e => {
-                <Notes regularUser={email} />
-                // redirect to Notes page
+                app.auth().createUserWithEmailAndPassword(email, password).then(
+                    e => {
+                        history.push("/notetakingapp");
+                        if (setUserStatus) {
+                            setUserStatus("Logout");
+                        } 
+                    }
+                );
             }
-        ) */ }); 
+        )
+       }); 
             }
         ).catch(e =>  { 
             console.log(e);
@@ -67,12 +76,18 @@ function Register() {
     }); */
 
     const getAllRegularUsers = () => {
-        axios.get("https://note-taking-app-backend-01.herokuapp.com/getAllRegularUsers/").then(res => {
-            setRegularUsers([...res.data]);
-         }).catch(e => {
-            console.log(e);
-        });
-    }
+        let promise = new Promise((resolve, reject) => {
+            resolve(
+                axios.get("https://note-taking-app-backend-01.herokuapp.com/getAllRegularUsers/").then(res => {
+                    setRegularUsers([...res.data]);
+                }
+                ).catch(e => {
+                    console.log(e);
+                    return reject;
+                }));
+        })
+        return promise;
+    } 
     
 
     return (
@@ -104,7 +119,7 @@ function Register() {
                                 type="text"
                                 name="username"
                                 className="login-input"
-                                placeholder="Full Name" onChange={(e) => setUsername(e.target.value)} />
+                                placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
                         </div>
 
                         <div className="input-group">
@@ -128,7 +143,7 @@ function Register() {
                         <button
                             type="button"
                             className="login-btn"
-                            onClick={() => registrationHandler(name, email, username)}>Create Account
+                            onClick={() => registrationHandler(name, email, username, password)}>Create Account
                     </button>
 
                         <div>
@@ -145,4 +160,4 @@ function Register() {
       );
 }
 
-export default Register;
+export default withRouter(Register);

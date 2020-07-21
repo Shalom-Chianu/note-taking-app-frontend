@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Login.css';
 import axios from 'axios';
-import { Link,  Redirect } from 'react-router-dom';
-import { useAuth } from "../../context/auth";
-//import { Route , withRouter} from 'react-router-dom';
+import { Link,  Redirect, withRouter } from 'react-router-dom';
+import app from '../../firebase.js';
+import { AuthContext } from '../../Auth';
 
-function Login(props) {
+function Login({ history, setUserStatus }) {
   
   // Declare a new state variable
   const [email, setEmail] = useState("");
@@ -14,7 +14,6 @@ function Login(props) {
   const [redirect, setRedirect] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { setAuthTokens } = useAuth();
 
   const getAccountByEmail = (email) => {
     axios.post("https://note-taking-app-backend-01.herokuapp.com/getAccountByEmail/" + "?" + "email=" +  email).then(res => {
@@ -51,45 +50,49 @@ function Login(props) {
    
   }, []);
 
-  const handleSubmit = (email) => {
-      let included = false;
-      let email1 = "";
-      let username = "";
+  const handleSubmit = (email, password) => {
+      // let included = false;
 
-      console.log(regularUsers);
+      // console.log(regularUsers);
 
-      // may need to change the username = password thing -> for testing purposes
-      for (const ele of regularUsers) {
-        if (ele.accountDTO.email == email && ele.accountDTO.username == password) {
-            included = true; 
-            email1 = ele.accountDTO.email;
-            username = ele.accountDTO.username;
-            break;
-        }
+      // // may need to change the username = password thing -> for testing purposes
+      // for (const ele of regularUsers) {
+      //   if (ele.accountDTO.email == email && ele.accountDTO.username == password) {
+      //       included = true; 
+      //       break;
+      //   }
+      // }
+
+      app.auth().signInWithEmailAndPassword(email, password);
+      history.push("/notetakingapp");
+
+      if (setUserStatus) {
+        setUserStatus("Logout");
       }
 
-      if (included) {
-       // <Notes regularUser={email}/>
-       setAuthTokens(email);
-       setLoggedIn(true);
+    //   if (included) {
+    //    // <Notes regularUser={email}/>
+    //    setAuthTokens(email);
+    //    setLoggedIn(true);
 
-      } else {
-        setIsError(true);
-        throw new Error("Email or password may be incorrect");
-    }
+    //   } else {
+    //     setIsError(true);
+    //     throw new Error("Email or password may be incorrect");
+    // }
 
   }
 
-  if(isLoggedIn){
+  const { currentUser } = useContext(AuthContext);
+
+  if( currentUser ) {
     return <Redirect to="/notetakingapp" />
   }
+
   return (
     <div className="root-container">
-
       <div className="subtitle">
         <p>Jotter</p>
       </div>
-
       <div className="box-container">
         <div className="inner-container">
           <div className="header">
@@ -118,7 +121,7 @@ function Login(props) {
             <button
               type="button"
               className="login-btn"
-              onClick={() => handleSubmit(email)}>Login
+              onClick={() => handleSubmit(email, password)}>Login
                 </button>
 
             <div>
@@ -138,4 +141,4 @@ function Login(props) {
   
 }
 
-export default Login;
+export default withRouter(Login);
