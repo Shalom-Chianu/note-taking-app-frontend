@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../LoginComponent/Login.css';
-import Notes from '../NewNotesComponent/NewNotes';
 import {Link} from 'react-router-dom';
 
 function Register() {
@@ -14,7 +13,7 @@ function Register() {
     const createAccount = (email, username) => {
         let promise = new Promise ( (resolve, reject) => { 
             resolve ( 
-                axios.post("http://localhost:8080/createAccount/" + "?" + "email=" +  email + "&" + "username=" + username).then(res => {
+                axios.post("https://note-taking-app-backend-01.herokuapp.com/createAccount/" + "?" + "email=" +  email + "&" + "username=" + username).then(res => {
                 console.log(res); 
                 }
             ).catch(e => {
@@ -29,7 +28,7 @@ function Register() {
     const createRegularUser = (name, email, username) => {
         let promise = new Promise ( (resolve, reject) => {
             resolve (
-                axios.post("http://localhost:8080/createRegularUser/" + "?" + "name=" +  name + "&" + "email=" + email + "&" + "username=" + username).then(res => {
+                axios.post("https://note-taking-app-backend-01.herokuapp.com/createRegularUser/" + "?" + "name=" +  name + "&" + "email=" + email + "&" + "username=" + username).then(res => {
                 console.log(res);
             }
             ).catch(e => {
@@ -68,7 +67,7 @@ function Register() {
     }); */
 
     const getAllRegularUsers = () => {
-        axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
+        axios.get("https://note-taking-app-backend-01.herokuapp.com/getAllRegularUsers/").then(res => {
             setRegularUsers([...res.data]);
          }).catch(e => {
             console.log(e);

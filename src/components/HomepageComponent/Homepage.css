@@ -76,3 +76,29 @@
 .pagetitle {
     color: white;
 }
+
+.slogan {
+    letter-spacing: 10px;
+    font-size: 10px;
+}
+
+.link {
+    padding: 2px 30px;
+    font-size: 18px;
+    border-radius: 3px;
+    font-family: coolvetica;
+    background-color: #ffffff;
+    border: none;
+    transition: background-color 0.3s ease-out;
+    cursor: pointer;
+    color: #b43a05;
+    text-decoration: none;
+    letter-spacing: 5px;
+}
+
+.link:hover,
+.link:focus {
+    background-color: #f0a500;
+    color: white;
+    outline: none;
+}

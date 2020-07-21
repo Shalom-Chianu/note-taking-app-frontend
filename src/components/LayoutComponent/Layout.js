@@ -72,7 +72,7 @@ function Layout() {
     
         const getRegularUserByEmail = (email) => {
             try {
-                axios.get("http://localhost:8080/getRegularUserByEmail/" + "?" + "email=" + email).then(res => {
+                axios.get("https://note-taking-app-backend-01.herokuapp.com/getRegularUserByEmail/" + "?" + "email=" + email).then(res => {
                     setRegularUser(res.data);
                 });
             } catch (error) {
@@ -128,7 +128,7 @@ function Layout() {
     // };
 
     const updateNoteById = (title, description, noteId) => {
-        let url = description ? "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "description=" + description + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id: "http://localhost:8080/updateNoteById" + "?" + "title=" + title + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id ;
+        let url = description ? "https://note-taking-app-backend-01.herokuapp.com/updateNoteById" + "?" + "title=" + title + "&" + "description=" + description + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id: "https://note-taking-app-backend-01.herokuapp.com/updateNoteById" + "?" + "title=" + title + "&" + "noteId=" + noteId + "&regularUserId=" + regularUser.id ;
         axios.put(url).then(res => {
                 // update Regular User State?
 
@@ -156,7 +156,7 @@ function Layout() {
             setCurrentNoteDescription("");
             setCurrentNoteId(regularUserNotes[0].id)
         }
-        axios.delete("http://localhost:8080/deleteNoteById" + "?" + "noteId=" + noteId + "&" + "regularUserId=" + regularUser.id).then( () => {
+        axios.delete("https://note-taking-app-backend-01.herokuapp.com/deleteNoteById" + "?" + "noteId=" + noteId + "&" + "regularUserId=" + regularUser.id).then( () => {
             // let noteIndex =regularUserNotes.findIndex(element => element.noteId == noteId);
             // regUserObj.notes.splice(noteIndex, 1);
         }).catch(e => {
@@ -169,7 +169,7 @@ function Layout() {
 
         let note = {};
 
-        axios.post("http://localhost:8080/createNote/" + "?" + "title=" + title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
+        axios.post("https://note-taking-app-backend-01.herokuapp.com/createNote/" + "?" + "title=" + title + "&" + "description=" + description + "&" + "regularUserId=" + regularUserId).then(res => {
             note = {...res.data}
             regularUserNotes.unshift(note);
             setCurrentNoteId(note.id);

@@ -90,14 +90,14 @@ function Navbar() {
             authTokens ? <div> <Link to='/login' className="button">
               <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
                 onClick={() => handleLogOut()}>{login}</Button>
-            {/* </Link> <Link to='/layout' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
+            </Link> <Link to='/layout' style={{ color: 'inherit', textDecoration: 'inherit' }}>
                 <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
               </Link> </div> :
 
               <div> <Link to='/login' className="button">
                 <Button color="inherit" style={{fontFamily: 'RobotoLight'}}
                   onClick={() => handleLogIn()}>{login}</Button>
-              {/* </Link> <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
+              </Link> <Link to='/register' style={{ color: 'inherit', textDecoration: 'inherit' }}>
                   <Button color="inherit" style={{fontFamily: 'RobotoLight'}}>{addNote}</Button>
                 </Link> </div>
           }

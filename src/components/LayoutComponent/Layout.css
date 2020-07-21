@@ -1,5 +1,5 @@
 .container {
-    height: 100%;
+    height: 100vh;
     width: 100%; 
     display: flex;
     flex-direction: row;
@@ -34,6 +34,12 @@
 }
 
 .title:focus {
+    outline: none;
+    background: rgb(36, 47, 122);
+    color: #deecff;
+}
+
+.title:hover {
     outline: none;
     background: rgb(36, 47, 122);
     color: #deecff;

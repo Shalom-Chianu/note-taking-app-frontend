@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
 import axios from 'axios';
-import Notes from '../NewNotesComponent/NewNotes';
 import { Link,  Redirect } from 'react-router-dom';
 import { useAuth } from "../../context/auth";
 //import { Route , withRouter} from 'react-router-dom';
@@ -18,7 +17,7 @@ function Login(props) {
   const { setAuthTokens } = useAuth();
 
   const getAccountByEmail = (email) => {
-    axios.post("http://localhost:8080/getAccountByEmail/" + "?" + "email=" +  email).then(res => {
+    axios.post("https://note-taking-app-backend-01.herokuapp.com/getAccountByEmail/" + "?" + "email=" +  email).then(res => {
         console.log(res);
     }).catch(e => {
         console.log(e);
@@ -32,7 +31,7 @@ function Login(props) {
 
     const getAllRegularUsers = () => {
       try {
-        axios.get("http://localhost:8080/getAllRegularUsers/").then(res => {
+        axios.get("https://note-taking-app-backend-01.herokuapp.com/getAllRegularUsers/").then(res => {
           setRegularUsers([...res.data]);
         });
       } catch(error) {
